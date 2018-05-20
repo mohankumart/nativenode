@@ -9,7 +9,9 @@ const url = require('url');
 const fs = require('fs');
 const {StringDecoder} = require('string_decoder')
 
-const config = require('./config')
+const config = require('./lib/config')
+const handlers = require('./lib/handlers')
+const helpers = require('./lib/helpers')
 
 // The server shold respond to request with a string
 var httpServer = http.createServer(function(req, res){
@@ -65,14 +67,14 @@ var unifiedServer = function(req, res){
     req.on('end', ()=>{
         buffer += decoder.end()
         debugger;
-        var choosenHandler = typeof(router[trimmedPath]) != 'undefined'? router[trimmedPath]: handlers.notFound;
+        var choosenHandler = typeof(handlers.router[trimmedPath]) != 'undefined'? handlers.router[trimmedPath]: handlers.notFound;
         
         var data = {
             'trimmedPath': trimmedPath,
             'queryStringObject': queryStringObject,
             'method': method,
             'headers': headers,
-            'payload': buffer
+            'payload': helpers.pasreJsonToObject(buffer)
         };
 
         
@@ -94,20 +96,3 @@ var unifiedServer = function(req, res){
         });
     });
 }
-
-//Define handlers
-var handlers = {};
-
-handlers.ping = function(data, callback){
-    callback(200);
-}
-
-handlers.notFound = function(data, callback){
-    callback(404);
-}
-
-// define a request router
-var router = {
-    'ping': handlers.ping
-}
-
