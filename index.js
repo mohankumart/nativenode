@@ -14,7 +14,7 @@ var app = {};
 
 app.init = function(){
     server.init();
-    //workers.init();
+    workers.init();
 };
 
 // execute that function;
