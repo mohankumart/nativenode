@@ -13,7 +13,7 @@ var cli = require('./lib/cli');
 
 var app = {};
 
-app.init = function(){
+app.init = function(callback){
     server.init();
     workers.init();
 
@@ -22,12 +22,16 @@ app.init = function(){
     setTimeout(function(){
         debugger;
         cli.init();
-    },5000);
+        callback()
+    },50);
 };
 
 // execute that function;
 
+//self invoking only calling directly
+if(require.main == module){
+    app.init(function(){});
+}
 
-app.init();
 
 module.exports = app;

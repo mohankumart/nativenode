@@ -2,40 +2,17 @@
 * Test runner
 */
 
-var helpers = require('./../lib/helpers');
-
-var assert = require('assert');
+process.env.NODE_ENV = 'testing'
 
 //Application logic for test runner and container for test
 
 _app = {};
 
 
-_app.tests = {
-    'unit': {}
-};
+_app.tests = {};
 
-// Assert that the getNumber function is returning a number
-_app.tests.unit['helpers.getNumber should return number'] = function(done){
-    var val = helpers.getNumber();
-    assert.equal(typeof(val), 'number');
-    done();
-};
-
-// Assert that the getNumber function is returning a 1
-_app.tests.unit['helpers.getNumber should return 1'] = function(done){
-    var val = helpers.getNumber();
-    assert.equal(val, 1);
-    done();
-};
-
-
-// Assert that the getNumber function is returning a 2
-_app.tests.unit['helpers.getNumber should return 2'] = function(done){
-    var val = helpers.getNumber();
-    assert.equal(val, 2);
-    done();
-};
+//_app.tests.unit = require('./unit');
+_app.tests.api = require('./api')
 
 _app.countTests = function(){
     var counter = 0;
@@ -79,6 +56,7 @@ _app.produceTestReport = function(limit, successes, errors){
 
     console.log("");
     console.log("-------END TEST REPORT---------");
+    process.exit(0);
 };
 
 // Run all the tests, collecting the errors and success
@@ -91,6 +69,7 @@ _app.runTest = function(){
     for(var key in _app.tests){
         if(_app.tests.hasOwnProperty(key)){
             var subTests = _app.tests[key];
+            debugger;
             for(var testName in subTests){
                 if(subTests.hasOwnProperty(testName)){
                     (function(){
