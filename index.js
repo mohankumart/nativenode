@@ -15,15 +15,14 @@ var app = {};
 
 app.init = function(callback){
     server.init();
-    //workers.init();
+    workers.init();
 
-    // start the CLI, but make sure it start that
+    //start the CLI, but make sure it start that
 
-    // setTimeout(function(){
-    //     debugger;
-    //     //cli.init();
-    //     callback()
-    // },50);
+    setTimeout(function(){
+        cli.init();
+        callback()
+    },50);
 };
 
 // execute that function;
